@@ -1,0 +1,9 @@
+<launch>
+    <node name="trader" pkg="digital_passport_agent" type="trader_node" output="screen" respawn="true">
+        <param name="model" value="QmWDRjU7xrM7pFUDuAVbV6kytuFgooahNLsqvCnipPgSSQ" />
+        <param name="token" value="0x7dE91B204C1C737bcEe6F000AAA6569Cf7061cb7" />
+        <param name="order_lifetime" value="100" />
+    </node>
+
+    <node name="worker" pkg="digital_passport_agent" type="worker_node" output="screen" respawn="true" />
+</launch>

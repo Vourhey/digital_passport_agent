@@ -1,0 +1,4 @@
+# Digital Passport Agent
+
+If demand is received, broadcasts an offer with the cost
+If an event of a new liability is received, pins all the data to Pinata and finishes the liability
