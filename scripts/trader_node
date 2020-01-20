@@ -12,6 +12,10 @@ from ipfs_common.msg import Multihash
 
 
 class TraderNode:
+    # Let's assume we use XRT Token by Robonomics
+    # And also let's assume its price is $10 per token
+    XRT_DECIMALS = 9
+    XRT_PRICE = 10
 
     def __init__(self):
         rospy.init_node('trader')
@@ -43,7 +47,7 @@ class TraderNode:
             rospy.loginfo('Doesn\'t fit my model or token, skip it')
 
     def calc_price(self) -> int:
-        return 1 * 10 ** 18     # for now let's assume it's going to be DAI tokens where 10^18 is $1
+        return int(1 * (10 ** XRT_DECIMALS) / XRT_PRICE)
 
     def make_deadline(self) -> UInt256:
         lifetime = int(rospy.get_param('~order_lifetime'))

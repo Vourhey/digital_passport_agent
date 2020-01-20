@@ -14,14 +14,19 @@ class PinataPy:
         self.API_KEY = pinata_api_key
         self.SECRET_KEY = pinata_secret_api_key
 
-    def test_authentication(self) -> dict:
-        headers = {
+        self.headers = {
                 "pinata_api_key": self.API_KEY,
                 "pinata_secret_api_key": self.SECRET_KEY
                 }
 
+    def __error(self, code: int) -> dict:
+        return {
+                "message": "Response status {}".format(code)
+                }
+
+    def test_authentication(self) -> dict:
         url_suffix = "data/testAuthentication"
-        res = requests.get(__endpoint + url_suffix, headers=headers)
+        res = requests.get(__endpoint + url_suffix, headers=self.headers)
 
         if res.status_code == 200:
             return res.json()
@@ -29,10 +34,16 @@ class PinataPy:
         r = {
                 "message": "Response status {}".format(res.status_code)
                 }
-        return r
+        return self.__error(r.status_code)
 
     def add_hash_to_pin_queue(self, hash_to_pin, options=None):
-        pass
+        url_suffix = "pinning/addHashToPinQueue"
+        res = requests.post(__endpoint + url_suffix, data=body, headers=self.headers)
+
+        if res.status_code == 200:
+            return res.json()
+
+        return self.__error(r.status_code)
 
     def pin_file_to_ipfs(self, path_to_file, options=None):
         pass
