@@ -47,7 +47,7 @@ class TraderNode:
             rospy.loginfo('Doesn\'t fit my model or token, skip it')
 
     def calc_price(self) -> int:
-        return int(1 * (10 ** XRT_DECIMALS) / XRT_PRICE)
+        return int(0.000001 * (10 ** self.XRT_DECIMALS) / self.XRT_PRICE)
 
     def make_deadline(self) -> UInt256:
         lifetime = int(rospy.get_param('~order_lifetime'))

@@ -15,7 +15,7 @@ from robonomics_liability.srv import FinishLiability, FinishLiabilityRequest
 from robonomics_msgs.msg import Result
 from ipfs_common.ipfs_rosbag import IpfsRosBag
 
-from pinata_py import PinataPy
+from pinatapy import PinataPy
 
 
 class WorkerNode:
