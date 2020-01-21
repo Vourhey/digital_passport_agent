@@ -40,24 +40,12 @@ class WorkerNode:
     def subscribe_and_start(self, liability):
         rospy.loginfo("Starting process {}...".format(liability.address.address))
 
-        prefix = '/liability/eth_' + liability.address.address
-        pub_email = rospy.Publisher(prefix + "/email", String, queue_size=128)
-        pub_info = rospy.Publisher(prefix + "/info", String, queue_size=128)
-        pub_meta = rospy.Publisher(prefix + "/meta", String, queue_size=128)
-        pub_images = rospy.Publisher(prefix + "/images/0", String, queue_size=128)
-
         self.liability_proxy.start(liability.address)
 
         rospy.sleep(2)  # allow all publishers to be registered
 
         rospy.loginfo("Downloading the objective [{}]".format(liability.objective.multihash))
         bag = IpfsRosBag(multihash=liability.objective).messages
-
-        pub_email.publish(bag["/email"][0])
-        pub_email.publish(bag["/info"][0])
-        pub_email.publish(bag["/meta"][0])
-        for i in bag["/images"]:
-            pub_email.publish(i)
 
         self.pin_file_to_ipfs(bag)
 
@@ -66,13 +54,6 @@ class WorkerNode:
         rospy.loginfo("Finishing...")
 
         self.liability_proxy.finish(liability.address, True)
-
-        rospy.sleep(2)
-
-        pub_email.unregister()
-        pub_info.unregister()
-        pub_meta.unregister()
-        pub_images.unregister()
 
         rospy.loginfo("The task {} is done".format(liability.address.address))
 
