@@ -42,3 +42,5 @@ roslaunch digital_passport_agent agent.launch pinata_api_key:=<API_KEY> pinata_s
 
 where `<API_KEY>` is [Pinata.cloud](https://pinata.cloud/) API key and `<SECRET_API_KEY>` is secret API key provided by Pinata.
 
+If one of these or both are not provided Pinata pinning is not used.
+
