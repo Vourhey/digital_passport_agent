@@ -1,0 +1,28 @@
+{
+  "name": "digital_passport_agent",
+  "description": "Issues a digital passport based on objective data",
+  "author": "Vadim Manaenko",
+  "license": "BSD3",
+  "rosbag_scheme": [
+    {
+      "suffix": "/email",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "String"
+    },
+    {
+      "suffix": "/images",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "IPFSBin"
+    },
+    {
+      "suffix": "/info",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "IPFSStr"
+    },
+    {
+      "suffix": "/meta",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "String"
+    }
+  ]
+}

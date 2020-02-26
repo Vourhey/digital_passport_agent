@@ -1,0 +1,78 @@
+{
+  "name": "digital_passport_agent",
+  "description": "Zarya",
+  "author": "sas@aira.life",
+  "license": "BSD3",
+  "rosbag_scheme": [
+    {
+      "suffix": "/mgp",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "String"
+    },
+    {
+      "suffix": "/factory_number",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "String"
+    },
+    {
+      "suffix": "/weight_empty",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "String"
+    },
+    {
+      "suffix": "/symbol",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "String"
+    },
+    {
+      "suffix": "/weight",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "String"
+    },
+    {
+      "suffix": "/gas",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "String"
+    },
+    {
+      "suffix": "/weight_full",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "String"
+    },
+    {
+      "suffix": "/date_fueling",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "String"
+    },
+    {
+      "suffix": "/pressure",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "String"
+    },
+    {
+      "suffix": "/serial_number",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "String"
+    },
+    {
+      "suffix": "/date_verification",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "String"
+    },
+    {
+      "suffix": "/witness",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "String"
+    },
+    {
+      "suffix": "/date_release",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "String"
+    },
+    {
+      "suffix": "/images",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "IPFSBin"
+    }
+  ]
+}
