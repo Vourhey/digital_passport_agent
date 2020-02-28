@@ -5,6 +5,11 @@
   "license": "BSD3",
   "rosbag_scheme": [
     {
+      "suffix": "/email",
+      "rosbag_type": "std_msgs/String",
+      "data_type": "String"
+    },
+    {
       "suffix": "/mgp",
       "rosbag_type": "std_msgs/String",
       "data_type": "String"

@@ -3,6 +3,7 @@
 
 # Standart, System and Third party
 from collections import namedtuple
+import smtplib
 
 # ROS
 import rospy
@@ -45,6 +46,7 @@ class WorkerNode:
 
     def subscribe_and_start(self, liability):
         rospy.loginfo("Starting process {}...".format(liability.address.address))
+        self.current_liability = liability
 
         self.liability_proxy.start(liability.address)
 
@@ -52,6 +54,8 @@ class WorkerNode:
 
         rospy.loginfo("Downloading the objective [{}]".format(liability.objective.multihash))
         bag = IpfsRosBag(multihash=liability.objective).messages
+
+        self.send_email(bag)
 
         self.pin_file_to_ipfs(bag)
 
@@ -62,6 +66,45 @@ class WorkerNode:
         self.liability_proxy.finish(liability.address, True)
 
         rospy.loginfo("The task {} is done".format(liability.address.address))
+
+    def send_email(self, messages: dict):
+        for k, v in messages.items():
+            if k.endswith("/email"):
+                if v.data != "":
+                    self.__send_email(v.data)
+                return
+
+    def __send_email(self, addr: str):
+        rospy.loginfo("Sending an email to {}".format(addr))
+        login = rospy.get_param("~login")
+        email_from = rospy.get_param("~email_from")
+
+        if not email_from:
+            email_from = login
+
+        try:
+            serv = smtplib.SMTP(rospy.get_param('~smtp_provider'), int(rospy.get_param('~smtp_port')))
+            serv.ehlo()
+            serv.starttls()
+            # serv.ehlo()
+            serv.login(login, rospy.get_param('~email_password'))
+        except:
+            rospy.loginfo("Error while sending an email")
+
+        liability_link = 'https://etherscan.io/address/{}#readContract'.format(self.current_liability.address.address)
+        footer = '\n--\nBest regards,\nDigital Passport Registration by Robonomics.'
+        msg = '\r\n'.join([
+            'From: {}'.format(email_from),
+            'To: {}'.format(addr),
+            'Subject: Digital Passport Registration',
+            '',
+            "New passport was registered by {} at liability {}.{}"
+            .format(addr, liability_link, footer)
+        ])
+        serv.sendmail(login, addr, msg)
+        rospy.loginfo("Successfully sent!")
+        serv.quit()
+
 
     def pin_result(self, result: Result):
         if self.pinata is not None:

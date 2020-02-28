@@ -1,4 +1,8 @@
 <launch>
+    <arg name="login" default="" />
+    <arg name="email_from" default="" />
+    <arg name="email_password" default="" />
+
     <arg name="pinata_api_key" default="" />
     <arg name="pinata_secret_api_key" default="" />
 
@@ -12,6 +16,13 @@
     </node>
 
     <node name="worker" pkg="digital_passport_agent" type="worker_node" output="screen" respawn="true">
+        <param name="smtp_provider" value="smtp.gmail.com" />
+        <param name="smtp_port" value="587" />
+        <param name="login" value="$(arg login)" /> <!-- Gmail account login -->
+        <param name="email_from" value="$(arg email_from)" /> <!-- if empty, use login as email from -->
+        <param name="email_password" value="$(arg email_password)" /> <!-- app password -->
+        <param name="admin_email" value="vadim.manaenko@aira.life" />
+
         <param name="pinata_api_key" value="$(arg pinata_api_key)" />
         <param name="pinata_secret_api_key" value="$(arg pinata_secret_api_key)" />
     </node>
