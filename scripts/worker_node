@@ -28,11 +28,11 @@ class WorkerNode:
         rospy.Subscriber('/liability/ready', Liability, self.subscribe_and_start)
         rospy.Subscriber("/liability/infochan/eth/sending/result", Result, self.pin_result)
 
-        rospy.wait_for_service('liability/finish')
+        rospy.wait_for_service('/liability/finish')
 
         self.liability_proxy = namedtuple('liability_srvs_proxy', ['start', 'finish'])(
-                                          rospy.ServiceProxy('liability/start', StartLiability),
-                                          rospy.ServiceProxy('liability/finish', FinishLiability))
+                                          rospy.ServiceProxy('/liability/start', StartLiability),
+                                          rospy.ServiceProxy('/liability/finish', FinishLiability))
 
         pinata_api_key = rospy.get_param("~pinata_api_key")
         pinata_secret_api_key = rospy.get_param("~pinata_secret_api_key")
@@ -70,8 +70,8 @@ class WorkerNode:
     def send_email(self, messages: dict):
         for k, v in messages.items():
             if k.endswith("/email"):
-                if v.data != "":
-                    self.__send_email(v.data)
+                if v[0].data != "":
+                    self.__send_email(v[0].data)
                 return
 
     def __send_email(self, addr: str):
