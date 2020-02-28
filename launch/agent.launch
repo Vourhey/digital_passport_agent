@@ -1,4 +1,6 @@
 <launch>
+    <arg name="ns" default="" />
+
     <arg name="login" default="" />
     <arg name="email_from" default="" />
     <arg name="email_password" default="" />
@@ -9,13 +11,13 @@
     <arg name="model" default="QmWDRjU7xrM7pFUDuAVbV6kytuFgooahNLsqvCnipPgSSQ" />
     <arg name="token" default="0x7dE91B204C1C737bcEe6F000AAA6569Cf7061cb7" />
 
-    <node name="trader" pkg="digital_passport_agent" type="trader_node" output="screen" respawn="true">
+    <node ns="$(arg ns)" name="trader" pkg="digital_passport_agent" type="trader_node" output="screen" respawn="true">
         <param name="model" value="$(arg model)" />
         <param name="token" value="$(arg token)" />
         <param name="order_lifetime" value="100" />
     </node>
 
-    <node name="worker" pkg="digital_passport_agent" type="worker_node" output="screen" respawn="true">
+    <node ns="$(arg ns)" name="worker" pkg="digital_passport_agent" type="worker_node" output="screen" respawn="true">
         <param name="smtp_provider" value="smtp.gmail.com" />
         <param name="smtp_port" value="587" />
         <param name="login" value="$(arg login)" /> <!-- Gmail account login -->
