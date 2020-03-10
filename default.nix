@@ -14,6 +14,7 @@ mkRosPackage rec {
   propagatedBuildInputs = [
     robonomics_comm
     python3Packages.pinatapy
+    python3Packages.sentry-sdk
   ];
 
   meta = with stdenv.lib; {

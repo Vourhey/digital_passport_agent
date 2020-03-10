@@ -1,5 +1,5 @@
 <launch>
-    <arg name="ns" default="" />
+    <arg name="ns" default="digital_passport" />
 
     <arg name="login" default="" />
     <arg name="email_from" default="" />
