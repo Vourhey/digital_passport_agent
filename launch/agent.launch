@@ -18,6 +18,8 @@
     </node>
 
     <node ns="$(arg ns)" name="worker" pkg="digital_passport_agent" type="worker_node" output="screen" respawn="true">
+        <param name="model" value="$(arg model)" />
+
         <param name="smtp_provider" value="smtp.gmail.com" />
         <param name="smtp_port" value="587" />
         <param name="login" value="$(arg login)" /> <!-- Gmail account login -->

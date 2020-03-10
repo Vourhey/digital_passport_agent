@@ -47,6 +47,10 @@ class WorkerNode:
         rospy.loginfo('Worker node is launched')
 
     def subscribe_and_start(self, liability):
+        if liability.model.multihash != rospy.get_param("~model"):
+            rospy.loginfo("Liability is not for me")
+            return
+
         rospy.loginfo("Starting process {}...".format(liability.address.address))
         self.current_liability = liability
 
@@ -114,9 +118,16 @@ class WorkerNode:
 
     def pin_file_to_ipfs(self, bag: dict):
         if self.pinata is not None:
-            self.pinata.add_hash_to_pin_queue(bag["/meta"][0].data)
-            for i in bag["/images"]:
-                self.pinata.add_hash_to_pin_queue(i.data)
+            try:
+                self.pinata.add_hash_to_pin_queue(bag["/meta"][0].data)
+            except:
+                rospy.loginfo("There is no /meta field")
+
+            try:
+                for i in bag["/images"]:
+                    self.pinata.add_hash_to_pin_queue(i.data)
+            except:
+                rospy.loginfo("There is no images")
 
     def spin(self):
         rospy.spin()
