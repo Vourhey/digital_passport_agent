@@ -13,8 +13,7 @@ from std_msgs.msg import String
 
 # AIRA
 from robonomics_liability.msg import Liability
-from robonomics_liability.srv import StartLiability, StartLiabilityRequest
-from robonomics_liability.srv import FinishLiability, FinishLiabilityRequest
+from robonomics_liability.srv import StartLiability, FinishLiability
 from robonomics_msgs.msg import Result
 from ipfs_common.ipfs_rosbag import IpfsRosBag
 
@@ -22,6 +21,8 @@ from pinatapy import PinataPy
 
 
 class WorkerNode:
+
+    current_liability = None
 
     def __init__(self):
         rospy.init_node('worker')
@@ -42,7 +43,8 @@ class WorkerNode:
         if pinata_api_key == "" or pinata_secret_api_key == "":
             self.pinata = None
         else:
-            self.pinata = PinataPy(rospy.get_param("~pinata_api_key"), rospy.get_param("~pinata_secret_api_key"))
+            self.pinata = PinataPy(rospy.get_param("~pinata_api_key"),
+                                   rospy.get_param("~pinata_secret_api_key"))
 
         rospy.loginfo('Worker node is launched')
 
@@ -65,7 +67,7 @@ class WorkerNode:
 
         self.pin_file_to_ipfs(bag)
 
-        rospy.sleep(2)  # allow publishers to publish data
+        rospy.sleep(bag.bag.get_message_count())    # each message is published every second, so we wait `messages` seconds
 
         rospy.loginfo("Finishing...")
 
