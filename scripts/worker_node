@@ -31,11 +31,7 @@ class WorkerNode:
         rospy.Subscriber('/liability/ready', Liability, self.subscribe_and_start)
         rospy.Subscriber("/liability/infochan/eth/sending/result", Result, self.pin_result)
 
-        rospy.wait_for_service('/liability/finish')
-
-        self.liability_proxy = namedtuple('liability_srvs_proxy', ['start', 'finish'])(
-                                          rospy.ServiceProxy('/liability/start', StartLiability),
-                                          rospy.ServiceProxy('/liability/finish', FinishLiability))
+        self.init_services()
 
         pinata_api_key = rospy.get_param("~pinata_api_key")
         pinata_secret_api_key = rospy.get_param("~pinata_secret_api_key")
@@ -47,6 +43,14 @@ class WorkerNode:
                                    rospy.get_param("~pinata_secret_api_key"))
 
         rospy.loginfo('Worker node is launched')
+
+    def init_services(self):
+        rospy.wait_for_service('/liability/finish')
+
+        self.liability_proxy = namedtuple('liability_srvs_proxy', ['start', 'finish'])(
+                                          rospy.ServiceProxy('/liability/start', StartLiability),
+                                          rospy.ServiceProxy('/liability/finish', FinishLiability))
+
 
     def subscribe_and_start(self, liability):
         if liability.model.multihash != rospy.get_param("~model"):
@@ -71,6 +75,7 @@ class WorkerNode:
 
         rospy.loginfo("Finishing...")
 
+        self.init_services()
         self.liability_proxy.finish(liability.address, True)
 
         rospy.loginfo("The task {} is done".format(liability.address.address))
